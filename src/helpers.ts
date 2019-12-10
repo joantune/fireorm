@@ -2,6 +2,7 @@ import { getMetadataStorage } from './MetadataStorage';
 import { BaseFirestoreRepository } from './BaseFirestoreRepository';
 import { IEntity, Instantiable } from './types';
 import { FirestoreTransaction } from './FirestoreTransaction';
+import { FirestoreBatchRepository } from './BatchFirestoreRepository';
 
 export function getRepository<T extends IEntity>(
   entity: Instantiable<T>,
@@ -100,4 +101,17 @@ export const runTransaction = (
   return metadataStorage.firestoreRef.runTransaction(async t => {
     return executor(new FirestoreTransaction(t));
   });
+};
+
+export const createBatch = () => {
+  const metadataStorage = getMetadataStorage();
+
+  if (!metadataStorage.firestoreRef) {
+    throw new Error('Firestore must be initialized first');
+  }
+
+  return new FirestoreBatchRepository(
+    this.firestoreColRef,
+    this.toSerializableObject
+  );
 };

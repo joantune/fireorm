@@ -92,7 +92,9 @@ export class BaseFirestoreRepository<T extends IEntity>
     await this.firestoreColRef.doc(id).delete();
   }
 
-  // TODO: deprecation notice
+  /**
+   * @deprecated Use runTransaction from root object. This will be removed in a future version.
+   */
   async runTransaction(
     executor: (tran: TransactionRepository<T>) => Promise<void>
   ) {
