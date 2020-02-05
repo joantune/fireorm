@@ -1,5 +1,5 @@
 import { plainToClass } from 'class-transformer';
-import { DocumentSnapshot, QuerySnapshot } from '@google-cloud/firestore';
+import { DocumentSnapshot, QuerySnapshot,CollectionReference } from '@google-cloud/firestore';
 import {
   FirestoreCollectionType,
   IEntity,
@@ -28,6 +28,7 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
   protected readonly colMetadata: CollectionMetadata;
   protected readonly collectionType: FirestoreCollectionType;
   protected readonly colName: string;
+  protected readonly firestoreColRef: CollectionReference;
   protected readonly config: MetadataStorageConfig;
 
   // TODO: Make this private when transactions have been fixed

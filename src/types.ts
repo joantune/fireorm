@@ -13,6 +13,13 @@ export interface IRepository<T extends { id: string }> {
   delete(id: string): Promise<void>;
 }
 
+export interface ITXRepository<T extends {id: string}> {
+  txFindById(id: string, repo: BaseFirestoreRepository<T>): Promise<T>;
+  txCreate(item: PartialBy<T, 'id'>, repo: BaseFirestoreRepository<T>): Promise<T>;
+  txUpdate(item: T, repo: BaseFirestoreRepository<T>): Promise<T>;
+  txDelete(id: string, repo: BaseFirestoreRepository<T>): Promise<void>;
+}
+
 export type WithOptionalId<T extends { id: unknown }> = Pick<
   T,
   Exclude<keyof T, 'id'>

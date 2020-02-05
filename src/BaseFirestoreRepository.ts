@@ -18,7 +18,7 @@ import { FirestoreBatchRepository } from './BatchFirestoreRepository';
 export class BaseFirestoreRepository<T extends IEntity>
   extends AbstractFirestoreRepository<T>
   implements IRepository<T> {
-  private readonly firestoreColRef: CollectionReference;
+  readonly firestoreColRef: CollectionReference;
 
   constructor(colName: string, collectionPath?: string) {
     super(colName, collectionPath);

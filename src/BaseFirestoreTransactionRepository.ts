@@ -10,14 +10,15 @@ import {
   WithOptionalId,
   IQueryBuilder,
   IRepository,
-  FirestoreCollectionType,
+  ITXRepository, PartialBy
 } from './types';
 
 import { AbstractFirestoreRepository } from './AbstractFirestoreRepository';
+import {BaseFirestoreRepository} from "./BaseFirestoreRepository";
 
 export class TransactionRepository<T extends IEntity>
   extends AbstractFirestoreRepository<T>
-  implements IRepository<T> {
+  implements IRepository<T>, ITXRepository<T> {
   constructor(
     private collection: CollectionReference,
     private transaction: Transaction,
@@ -36,20 +37,32 @@ export class TransactionRepository<T extends IEntity>
   }
 
   findById(id: string): Promise<T> {
-    const query = this.collection.doc(id);
+    return this._findById(id, this.collection);
+  }
+
+  private _findById(id: string, collection: CollectionReference): Promise<T> {
+    const query = collection.doc(id);
     return this.transaction.get(query).then(this.extractTFromDocSnap);
   }
 
+  txFindById(id: string, repo: BaseFirestoreRepository<T>): Promise<T> {
+    return this._findById(id, repo.firestoreColRef);
+  }
+
   async create(item: WithOptionalId<T>): Promise<T> {
-    if (this.config.validateModels) {
+   return this._create(item, this.collection);
+  }
+
+  private async _create(item: WithOptionalId<T>, collection: CollectionReference): Promise<T> {
+     if (this.config.validateModels) {
       const errors = await this.validate(item as T);
-  
+
       if (errors.length) {
         throw errors;
       }
     }
 
-    const doc = item.id ? this.collection.doc(item.id) : this.collection.doc();
+    const doc = item.id ? collection.doc(item.id) : collection.doc();
 
     if (!item.id) {
       item.id = doc.id;
@@ -62,23 +75,42 @@ export class TransactionRepository<T extends IEntity>
     return item as T;
   }
 
+  async txCreate(item: PartialBy<T, "id">, repo: BaseFirestoreRepository<T>): Promise<T> {
+    return this._create(item, repo.firestoreColRef);
+  }
+
   async update(item: T): Promise<T> {
+    return this._update(item, this.collection);
+  }
+  private async _update(item: T, collection: CollectionReference): Promise<T> {
     if (this.config.validateModels) {
       const errors = await this.validate(item);
-  
+
       if (errors.length) {
         throw errors;
       }
     }
 
-    const query = this.collection.doc(item.id);
+    const query = collection.doc(item.id);
     await this.transaction.update(query, this.toSerializableObject(item));
 
     return item;
   }
 
+  async txUpdate(item: T, repo: BaseFirestoreRepository<T>): Promise<T> {
+    return this._update(item, repo.firestoreColRef);
+  }
+
   async delete(id: string): Promise<void> {
-    await this.transaction.delete(this.collection.doc(id));
+    return this._delete(id, this.collection);
+  }
+
+  private async _delete(id: string, collection: CollectionReference): Promise<void> {
+    await this.transaction.delete(collection.doc(id));
+  }
+
+  txDelete(id: string, repo: BaseFirestoreRepository<T>): Promise<void> {
+    return this._delete(id, repo.firestoreColRef);
   }
 
   limit(): IQueryBuilder<T> {
@@ -92,4 +124,6 @@ export class TransactionRepository<T extends IEntity>
   orderByDescending(): IQueryBuilder<T> {
     throw new Error('`orderByDescending` is not available for transactions');
   }
+
+
 }
