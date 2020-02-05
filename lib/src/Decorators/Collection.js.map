@@ -1,0 +1,1 @@
+{"version":3,"file":"Collection.js","sourceRoot":"","sources":["../../../src/Decorators/Collection.ts"],"names":[],"mappings":";;AAAA,sDAAwD;AACxD,uCAAmC;AAGnC,SAAgB,UAAU,CAAC,UAAmB;IAC5C,OAAO,UAAS,MAA4B;QAC1C,oCAAkB,EAAE,CAAC,aAAa,CAAC;YACjC,IAAI,EAAE,UAAU,IAAI,kBAAM,CAAC,MAAM,CAAC,IAAI,CAAC;YACvC,MAAM,QAAA;SACP,CAAC,CAAC;IACL,CAAC,CAAC;AACJ,CAAC;AAPD,gCAOC"}
