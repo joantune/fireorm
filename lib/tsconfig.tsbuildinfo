@@ -154,15 +154,15 @@
         "signature": "def3958a8c183d1ed8f52d745ecf61e8518a4144eb2ff8fdd55bac7b6c9e7d0f"
       },
       "../src/BaseFirestoreTransactionRepository.ts": {
-        "version": "d5b20d718f6e668a1ab718dc63c72216bf97bd3145050039835ea94e974513bf",
-        "signature": "55d8b758d9c0060b815fb66fbdf26defb590300471942b3e716858e8259886a7"
+        "version": "1b48726dddcda24d5cff3e00fb332ce231e468590c7cc66db33cfc71d6c37874",
+        "signature": "5245cc11f5cf8377b0d5a81259562d2964b69e5ca994b7b6854a346ee38fd6c9"
       },
       "../src/BatchFirestoreRepository.ts": {
         "version": "9a70bcbbb838b6ded0c88cbcf3c73003e514e323480741655290acb04e2cdb0e",
         "signature": "a4264e9b02b5903f8c5c80bc211891777e512221ee09c55cb6266ac38b17881f"
       },
       "../src/BaseFirestoreRepository.ts": {
-        "version": "a30019bc82aa80caa6fcf939de2485ac3096dfce3541064ed1fe7983e19ea19d",
+        "version": "d35634a890024a9c95322756124359960f4c89c071948dc53af2ffdb39b3031f",
         "signature": "5182e5e8ee46b39fecdbf3ed6e4189b075c35beb8e6867e99031bc8ec6ea33cf"
       },
       "../src/types.ts": {
@@ -258,8 +258,8 @@
         "signature": "8a2491b4c3dc3a95da765bf4a7d39e1879413b7d2c40a9b9c4cd9d98164b7546"
       },
       "../src/AbstractFirestoreRepository.ts": {
-        "version": "97295edef910cb69898a9e04b0e5406f91bebcf2eab48bb0bc54c20f3f1724b9",
-        "signature": "02db37bc7414966d3b4ff8d24c138b983949b110249004abb5b4e0de3793d9be"
+        "version": "f678da9f2941ea7aead0e3e851f86a5e14b2c2095835c294066e76265ef3759a",
+        "signature": "8731fb08fdc43407a13a9b2615142b19a49f7129db08ac19bd351726714aea02"
       },
       "../node_modules/@types/chai/index.d.ts": {
         "version": "36eaf2445281c438604e5cbfeca94413477d4eaeffd12926e373f7e0c20fd03d",
@@ -745,6 +745,7 @@
         "../src/types.ts",
         "../src/AbstractFirestoreRepository.ts",
         "../src/BaseFirestoreRepository.ts",
+        "../node_modules/class-transformer/index.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1506,8 +1507,8 @@
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../src/MetadataStorage.ts": [
-        "../src/types.ts",
-        "../node_modules/@google-cloud/firestore/types/firestore.d.ts"
+        "../node_modules/@google-cloud/firestore/types/firestore.d.ts",
+        "../src/types.ts"
       ],
       "../src/BaseFirestoreTransactionRepository.ts": [
         "../src/types.ts",
@@ -1516,20 +1517,20 @@
         "../src/AbstractFirestoreRepository.ts"
       ],
       "../src/BatchFirestoreRepository.ts": [
-        "../src/types.ts",
-        "../node_modules/@google-cloud/firestore/types/firestore.d.ts"
+        "../node_modules/@google-cloud/firestore/types/firestore.d.ts",
+        "../src/types.ts"
       ],
       "../src/BaseFirestoreRepository.ts": [
         "../node_modules/reflect-metadata/index.d.ts",
-        "../src/types.ts",
         "../node_modules/@google-cloud/firestore/types/firestore.d.ts",
+        "../src/types.ts",
+        "../src/AbstractFirestoreRepository.ts",
         "../src/BaseFirestoreTransactionRepository.ts",
-        "../src/BatchFirestoreRepository.ts",
-        "../src/AbstractFirestoreRepository.ts"
+        "../src/BatchFirestoreRepository.ts"
       ],
       "../src/types.ts": [
-        "../src/BaseFirestoreRepository.ts",
-        "../node_modules/@google-cloud/firestore/types/firestore.d.ts"
+        "../node_modules/@google-cloud/firestore/types/firestore.d.ts",
+        "../src/BaseFirestoreRepository.ts"
       ],
       "../node_modules/ts-object-path/dist/types/obj-path-proxy.d.ts": [
         "../node_modules/@types/node/util.d.ts",
@@ -1649,8 +1650,8 @@
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../src/helpers.ts": [
-        "../src/types.ts",
-        "../src/BaseFirestoreRepository.ts"
+        "../src/BaseFirestoreRepository.ts",
+        "../src/types.ts"
       ],
       "../src/AbstractFirestoreRepository.ts": [
         "../src/types.ts",
@@ -2052,13 +2053,8 @@
       "../node_modules/@google-cloud/firestore/types/firestore.d.ts",
       "../node_modules/reflect-metadata/index.d.ts",
       "../src/BaseRepository.ts",
-      "../src/MetadataStorage.ts",
-      "../src/BatchFirestoreRepository.ts",
-      "../src/BaseFirestoreRepository.ts",
-      "../src/types.ts",
       "../node_modules/ts-object-path/dist/types/obj-path-proxy.d.ts",
       "../node_modules/ts-object-path/dist/types/ts-object-path.d.ts",
-      "../src/QueryBuilder.ts",
       "../node_modules/class-validator/validation/ValidationError.d.ts",
       "../node_modules/class-validator/validation/ValidatorOptions.d.ts",
       "../node_modules/class-validator/validation-schema/ValidationSchema.d.ts",
@@ -2077,24 +2073,9 @@
       "../node_modules/class-validator/metadata/ConstraintMetadata.d.ts",
       "../node_modules/class-validator/metadata/MetadataStorage.d.ts",
       "../node_modules/class-validator/index.d.ts",
-      "../src/helpers.ts",
-      "../src/AbstractFirestoreRepository.ts",
       "../node_modules/@types/chai/index.d.ts",
       "../test/fixture.ts",
       "../node_modules/@types/pluralize/index.d.ts",
-      "../src/Decorators/Collection.ts",
-      "../src/Decorators/CustomRepository.ts",
-      "../src/Decorators/SubCollection.ts",
-      "../src/Decorators/index.ts",
-      "../src/index.ts",
-      "../test/BandCollection.ts",
-      "../src/BaseFirestoreRepository.spec.ts",
-      "../src/BaseFirestoreTransactionRepository.spec.ts",
-      "../src/QueryBuilder.spec.ts",
-      "../src/helpers.spec.ts",
-      "../src/Decorators/Collection.spec.ts",
-      "../src/Decorators/CustomRepository.spec.ts",
-      "../src/Decorators/SubCollection.spec.ts",
       "../node_modules/@types/chai-as-promised/index.d.ts",
       "../node_modules/@types/color-name/index.d.ts",
       "../node_modules/@types/events/index.d.ts",
@@ -2152,7 +2133,27 @@
       "../node_modules/@types/retry/index.d.ts",
       "../node_modules/@types/uuid/interfaces.d.ts",
       "../node_modules/@types/uuid/index.d.ts",
-      "../src/BaseFirestoreTransactionRepository.ts"
+      "../src/AbstractFirestoreRepository.ts",
+      "../src/MetadataStorage.ts",
+      "../src/BaseFirestoreTransactionRepository.ts",
+      "../src/BatchFirestoreRepository.ts",
+      "../src/BaseFirestoreRepository.ts",
+      "../src/types.ts",
+      "../src/QueryBuilder.ts",
+      "../src/helpers.ts",
+      "../src/Decorators/Collection.ts",
+      "../src/Decorators/CustomRepository.ts",
+      "../src/Decorators/SubCollection.ts",
+      "../src/Decorators/index.ts",
+      "../src/index.ts",
+      "../test/BandCollection.ts",
+      "../src/BaseFirestoreRepository.spec.ts",
+      "../src/BaseFirestoreTransactionRepository.spec.ts",
+      "../src/QueryBuilder.spec.ts",
+      "../src/helpers.spec.ts",
+      "../src/Decorators/Collection.spec.ts",
+      "../src/Decorators/CustomRepository.spec.ts",
+      "../src/Decorators/SubCollection.spec.ts"
     ]
   },
   "version": "3.7.5"

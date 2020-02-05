@@ -12,11 +12,11 @@ export declare abstract class AbstractFirestoreRepository<T extends IEntity> ext
     protected readonly config: MetadataStorageConfig;
     readonly collectionPath: string;
     constructor(nameOrConstructor: string | Function, collectionPath?: string);
-    protected toSerializableObject: (obj: T) => Object;
-    protected transformFirestoreTypes: (obj: T) => T;
-    protected initializeSubCollections: (entity: T) => void;
-    protected extractTFromDocSnap: (doc: DocumentSnapshot) => T;
-    protected extractTFromColSnap: (q: QuerySnapshot) => T[];
+    protected toSerializableObject: <E extends IEntity>(obj: E) => Object;
+    protected transformFirestoreTypes: <E extends IEntity>(obj: E) => E;
+    protected initializeSubCollections: <E extends IEntity>(entity: E) => void;
+    protected extractTFromDocSnap: <E extends IEntity>(doc: DocumentSnapshot) => E;
+    protected extractTFromColSnap: <E extends IEntity>(q: QuerySnapshot) => E[];
     /**
      * Returns a new QueryBuilder with a filter specifying that the
      * value in @param prop must be equal to @param val.
@@ -146,7 +146,7 @@ export declare abstract class AbstractFirestoreRepository<T extends IEntity> ext
      * @param item class or object representing an entity
      * @returns {Promise<ValidationError[]>} An array of class-validator errors
      */
-    validate(item: T): Promise<ValidationError[]>;
+    validate<E extends IEntity>(item: E): Promise<ValidationError[]>;
     /**
      * Takes all the queries stored by QueryBuilder and executes them.
      * Must be implemented by base repositores
