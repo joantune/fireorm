@@ -58,7 +58,7 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
     this.subColMetadata = getSubCollectionsFromParent(this.colMetadata.entity);
   }
 
-  protected toSerializableObject = (obj: T): Object => {
+  protected toSerializableObject = <E extends IEntity>(obj: E): Object => {
     const { ...serializedObj } = obj;
     this.subColMetadata.forEach(scm => {
       delete serializedObj[scm.propertyKey];
@@ -66,7 +66,7 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
     return serializedObj;
   };
 
-  protected transformFirestoreTypes = (obj: T): T => {
+  protected transformFirestoreTypes = <E extends IEntity>(obj: E): E => {
     Object.keys(obj).forEach(key => {
       if (!obj[key]) return;
       if (typeof obj[key] === 'object' && 'toDate' in obj[key]) {
@@ -84,7 +84,7 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
     return obj;
   };
 
-  protected initializeSubCollections = (entity: T) => {
+  protected initializeSubCollections = <E extends IEntity>(entity: E) => {
     // Requiring here to prevent circular dependency
     const { getRepository } = require('./helpers');
 
@@ -98,7 +98,7 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
     });
   };
 
-  protected extractTFromDocSnap = (doc: DocumentSnapshot): T => {
+  protected extractTFromDocSnap= <E extends IEntity> (doc: DocumentSnapshot): E => {
     if (!doc.exists) {
       return null;
     }
@@ -106,16 +106,16 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
     // tslint:disable-next-line:no-unnecessary-type-assertion
     const entity = plainToClass(
       this.colMetadata.entity,
-      {id:doc.id, ...this.transformFirestoreTypes(doc.data() as T)}
-    ) as T;
+      {id:doc.id, ...this.transformFirestoreTypes(doc.data() as E)}
+    ) as E;
 
     this.initializeSubCollections(entity);
 
     return entity;
   };
 
-  protected extractTFromColSnap = (q: QuerySnapshot): T[] => {
-    return q.docs.map(this.extractTFromDocSnap);
+  protected extractTFromColSnap = <E extends IEntity>(q: QuerySnapshot): E[] => {
+    return q.docs.map(i => this.extractTFromDocSnap<E>(i));
   };
 
   /**
@@ -301,7 +301,7 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
    * @param item class or object representing an entity
    * @returns {Promise<ValidationError[]>} An array of class-validator errors
    */
-  async validate(item: T): Promise<ValidationError[]> {
+  async validate<E extends IEntity>(item: E): Promise<ValidationError[]> {
     try {
       const classValidator = await import('class-validator');
       const { getSubCollection, getCollection } = getMetadataStorage();

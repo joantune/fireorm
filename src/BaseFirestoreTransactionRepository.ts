@@ -2,6 +2,7 @@ import {
   CollectionReference,
   Transaction,
   WhereFilterOp,
+    DocumentSnapshot
 } from '@google-cloud/firestore';
 
 import {
@@ -16,6 +17,7 @@ import {
 import { AbstractFirestoreRepository } from './AbstractFirestoreRepository';
 import {BaseFirestoreRepository} from "./BaseFirestoreRepository";
 
+import { plainToClass } from 'class-transformer';
 export class TransactionRepository<T extends IEntity>
   extends AbstractFirestoreRepository<T>
   implements IRepository<T>, ITXRepository<T> {
@@ -33,29 +35,30 @@ export class TransactionRepository<T extends IEntity>
       return acc.where(cur.prop, op, cur.val);
     }, this.collection);
 
-    return this.transaction.get(query).then(this.extractTFromColSnap);
+    return this.transaction.get(query).then(a => this.extractTFromColSnap<T>(a));
   }
 
   findById(id: string): Promise<T> {
-    return this._findById(id, this.collection);
+    return this._findById<T>(id, this.collection);
   }
 
-  private _findById(id: string, collection: CollectionReference): Promise<T> {
+
+  private _findById<E extends IEntity>(id: string, collection: CollectionReference): Promise<E> {
     const query = collection.doc(id);
-    return this.transaction.get(query).then(this.extractTFromDocSnap);
+    return this.transaction.get(query).then(a =>this.extractTFromDocSnap<E>(a));
   }
 
-  txFindById(id: string, repo: BaseFirestoreRepository<T>): Promise<T> {
-    return this._findById(id, repo.firestoreColRef);
+  txFindById<E extends IEntity>(id: string, repo: BaseFirestoreRepository<E>): Promise<E> {
+    return this._findById<E>(id, repo.firestoreColRef);
   }
 
   async create(item: WithOptionalId<T>): Promise<T> {
    return this._create(item, this.collection);
   }
 
-  private async _create(item: WithOptionalId<T>, collection: CollectionReference): Promise<T> {
+  private async _create<E extends IEntity>(item: WithOptionalId<E>, collection: CollectionReference): Promise<E> {
      if (this.config.validateModels) {
-      const errors = await this.validate(item as T);
+      const errors = await this.validate(item as E);
 
       if (errors.length) {
         throw errors;
@@ -68,21 +71,21 @@ export class TransactionRepository<T extends IEntity>
       item.id = doc.id;
     }
 
-    await this.transaction.set(doc, this.toSerializableObject(item as T));
+    await this.transaction.set(doc, this.toSerializableObject(item as E));
 
-    this.initializeSubCollections(item as T);
+    this.initializeSubCollections(item as E);
 
-    return item as T;
+    return item as E;
   }
 
-  async txCreate(item: PartialBy<T, "id">, repo: BaseFirestoreRepository<T>): Promise<T> {
+  async txCreate<E extends IEntity>(item: PartialBy<E, "id">, repo: BaseFirestoreRepository<T>): Promise<E> {
     return this._create(item, repo.firestoreColRef);
   }
 
   async update(item: T): Promise<T> {
     return this._update(item, this.collection);
   }
-  private async _update(item: T, collection: CollectionReference): Promise<T> {
+  private async _update<E extends IEntity>(item: E, collection: CollectionReference): Promise<E> {
     if (this.config.validateModels) {
       const errors = await this.validate(item);
 
@@ -97,7 +100,7 @@ export class TransactionRepository<T extends IEntity>
     return item;
   }
 
-  async txUpdate(item: T, repo: BaseFirestoreRepository<T>): Promise<T> {
+  async txUpdate<E extends IEntity>(item: E, repo: BaseFirestoreRepository<E>): Promise<E> {
     return this._update(item, repo.firestoreColRef);
   }
 
@@ -109,7 +112,7 @@ export class TransactionRepository<T extends IEntity>
     await this.transaction.delete(collection.doc(id));
   }
 
-  txDelete(id: string, repo: BaseFirestoreRepository<T>): Promise<void> {
+  txDelete<E extends IEntity>(id: string, repo: BaseFirestoreRepository<E>): Promise<void> {
     return this._delete(id, repo.firestoreColRef);
   }
 

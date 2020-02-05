@@ -36,7 +36,7 @@ export class BaseFirestoreRepository<T extends IEntity>
     return this.firestoreColRef
       .doc(id)
       .get()
-      .then(this.extractTFromDocSnap);
+      .then(a => this.extractTFromDocSnap<T>(a));
   }
 
   async create(item: T): Promise<T> {
@@ -133,6 +133,6 @@ export class BaseFirestoreRepository<T extends IEntity>
       query = query.limit(limitVal);
     }
 
-    return query.get().then(this.extractTFromColSnap);
+    return query.get().then(a => this.extractTFromColSnap<T>(a));
   }
 }
